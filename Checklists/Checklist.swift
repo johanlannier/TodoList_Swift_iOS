@@ -10,11 +10,11 @@ import Foundation
 
 class Checklist {
     
-    var nom: String
+    var name: String
     var items: Array<CheckListItem>
     
     init(nom: String, list: Array<CheckListItem> = []) {
-        self.nom = nom
+        self.name = nom
         self.items = list
     }
 }

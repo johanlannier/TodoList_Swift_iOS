@@ -23,7 +23,7 @@ class AllListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckList", for: indexPath)
-        cell.textLabel?.text = checklistList[indexPath.row].nom
+        cell.textLabel?.text = checklistList[indexPath.row].name
         return cell
     }
     
@@ -31,7 +31,7 @@ class AllListViewController: UITableViewController {
         if segue.identifier == "showCheckList" {
             if let destVC = segue.destination as? CheckListViewController  {
                 let cell = sender as! UITableViewCell
-                destVC.liste = checklistList[(tableView.indexPath(for: cell)?.row)!]
+                destVC.list = checklistList[(tableView.indexPath(for: cell)?.row)!]
             }
         }
     }
