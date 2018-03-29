@@ -10,6 +10,7 @@ import UIKit
 
 class CheckListViewController: UITableViewController {
     
+    var liste: Checklist!
     var items: Array<CheckListItem> = []
     var documentDirectory: URL = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).first!
     var dataFileUrl: URL = URL(fileURLWithPath: "")
@@ -47,11 +48,12 @@ class CheckListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title=liste.nom
         //items.append(CheckListItem(text: "Item1", checked: true))
         //items.append(CheckListItem(text: "Item2"))
         viewTable.delegate=self
         viewTable.dataSource=self
-        print(dataFileUrl.absoluteURL)
+        //print(dataFileUrl.absoluteURL)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
