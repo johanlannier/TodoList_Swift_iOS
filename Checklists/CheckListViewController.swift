@@ -11,28 +11,61 @@ import UIKit
 class CheckListViewController: UITableViewController {
     
     var items: Array<CheckListItem> = []
+    var documentDirectory: URL = FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).first!
+    var dataFileUrl: URL = URL(fileURLWithPath: "")
+    let fileName="Checklists.json"
+    
     
     @IBOutlet var viewTable: UITableView!
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        dataFileUrl=documentDirectory.appendingPathComponent(fileName)
+        loadChecklistItems()
+    }
+    
+    func saveChecklistItems(){
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        do{
+            let data = try encoder.encode(items)
+            try data.write(to: dataFileUrl)
+        } catch{
+            
+        }
+    }
+    
+    func loadChecklistItems(){
+        let decoder=JSONDecoder()
+        do{
+        let data = try String(contentsOf: dataFileUrl, encoding: String.Encoding.utf8).data(using: String.Encoding.utf8)
+            items = try decoder.decode([CheckListItem].self, from: data!)
+        }catch {
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        items.append(CheckListItem(text: "Item1", checked: true))
-        items.append(CheckListItem(text: "Item2"))
+        //items.append(CheckListItem(text: "Item1", checked: true))
+        //items.append(CheckListItem(text: "Item2"))
         viewTable.delegate=self
         viewTable.dataSource=self
+        print(dataFileUrl.absoluteURL)
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addItem"{
             if let navVC = segue.destination as? UINavigationController,
-                let destVC = navVC.topViewController as? AddItemViewController  {
+                let destVC = navVC.topViewController as? ItemDetailViewController  {
                 destVC.delegate = self
             }
         }
         else if segue.identifier == "editItem"{
             if let navVC = segue.destination as? UINavigationController,
-                let destVC = navVC.topViewController as? AddItemViewController  {
+                let destVC = navVC.topViewController as? ItemDetailViewController  {
                 let cell = sender as! ChecklistItemCell
                 destVC.itemToEdit = items[(viewTable.indexPath(for: cell)?.row)!]
                 destVC.delegate = self
@@ -46,6 +79,7 @@ class CheckListViewController: UITableViewController {
         } else {
             cell.itemChecked.isHidden=true
         }
+        saveChecklistItems()
     }
     func configureText(for cell: ChecklistItemCell, withItem item: CheckListItem){
         cell.itemText.text=item.text
@@ -86,18 +120,20 @@ class CheckListViewController: UITableViewController {
 
 }
 
-extension CheckListViewController: AddItemViewControllerDelegate{
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+extension CheckListViewController: ItemDetailViewControllerDelegate{
+    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         dismiss(animated: true)
     }
-    func addItemViewController(_ controller: AddItemViewController, didFinishAddingItem item: CheckListItem) {
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAddingItem item: CheckListItem) {
         items.append(item)
         viewTable.insertRows(at: [IndexPath(row: items.count-1, section: 0)], with: UITableViewRowAnimation.automatic)
         dismiss(animated: true)
+        saveChecklistItems()
     }
-    func addItemViewController(_ controller: AddItemViewController, didFinishEditingItem item: CheckListItem){
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditingItem item: CheckListItem){
         controller.dismiss(animated: true)
         let index = IndexPath(item: items.index(where: {$0 === item})!, section: 0)
         tableView.reloadRows(at: [index], with: UITableViewRowAnimation.fade)
+        saveChecklistItems()
     }
 }
