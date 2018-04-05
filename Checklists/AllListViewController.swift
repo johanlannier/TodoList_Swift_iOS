@@ -49,6 +49,7 @@ class AllListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckList", for: indexPath)
         cell.textLabel?.text = DataModel.sharedInstance.ListCheckList[indexPath.row].name
         self.configureDetailTitle(cell, DataModel.sharedInstance.ListCheckList[indexPath.row])
+        cell.imageView?.image = DataModel.sharedInstance.ListCheckList[indexPath.row].icon.image
         return cell
     }
     
@@ -68,13 +69,13 @@ class AllListViewController: UITableViewController {
         }
         else if segue.identifier == "addList"{
             if let navVC = segue.destination as? UINavigationController,
-                let destVC = navVC.topViewController as? AddListViewController  {
+                let destVC = navVC.topViewController as? ListDetailViewController  {
                 destVC.delegate = self
             }
         }
         else if segue.identifier == "editList"{
             if let navVC = segue.destination as? UINavigationController,
-                let destVC = navVC.topViewController as? AddListViewController  {
+                let destVC = navVC.topViewController as? ListDetailViewController  {
                 let cell = sender as! UITableViewCell
                 destVC.ListToEdit = DataModel.sharedInstance.ListCheckList[(tableView.indexPath(for: cell)?.row)!]
                 destVC.delegate = self
@@ -94,12 +95,12 @@ class AllListViewController: UITableViewController {
 }
 
 
-extension AllListViewController: AddListViewControllerDelegate{
-    func AddListViewControllerDidCancel(_ controller: AddListViewController) {
+extension AllListViewController: ListDetailViewControllerDelegate{
+    func ListDetailViewControllerDidCancel(_ controller: ListDetailViewController) {
         dismiss(animated: true)
     }
     
-    func AddListViewController(_ controller: AddListViewController, didFinishAddingItem item: Checklist) {
+    func ListDetailViewController(_ controller: ListDetailViewController, didFinishAddingItem item: Checklist) {
         DataModel.sharedInstance.ListCheckList.append(item)
         DataModel.sharedInstance.sortCheckList()
         let index = IndexPath(item : DataModel.sharedInstance.ListCheckList.count-1, section : 0)
@@ -108,7 +109,7 @@ extension AllListViewController: AddListViewControllerDelegate{
         dismiss(animated: true)
     }
     
-    func AddListViewController(_ controller: AddListViewController, didFinishEditingItem item: Checklist) {
+    func ListDetailViewController(_ controller: ListDetailViewController, didFinishEditingItem item: Checklist) {
         DataModel.sharedInstance.sortCheckList()
         controller.dismiss(animated: true)
         let index = IndexPath(item : DataModel.sharedInstance.ListCheckList.index(where:{ $0 === item })!, section : 0)

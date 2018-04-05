@@ -8,10 +8,11 @@
 
 import UIKit
 
-class AddListViewController: UITableViewController, UITextFieldDelegate {
+class ListDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var TextField: UITextField!
+    @IBOutlet weak var imageView: UIImageView!
     
-    var delegate: AddListViewControllerDelegate!
+    var delegate: ListDetailViewControllerDelegate!
     
     var ListToEdit: Checklist!
     
@@ -22,6 +23,7 @@ class AddListViewController: UITableViewController, UITextFieldDelegate {
         if let edit=ListToEdit{
             TextField.text=edit.name
             self.navigationItem.title="Edit List"
+            imageView.image = edit.icon.image
         }
     }
     
@@ -45,9 +47,9 @@ class AddListViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func done() {
         if (ListToEdit) != nil {
             ListToEdit.name = TextField.text!
-            delegate.AddListViewController(self, didFinishEditingItem: ListToEdit)
+            delegate.ListDetailViewController(self, didFinishEditingItem: ListToEdit)
         }else {
-            delegate.AddListViewController(self, didFinishAddingItem: Checklist(nom: TextField.text!))
+            delegate.ListDetailViewController(self, didFinishAddingItem: Checklist(nom: TextField.text!))
         }
     }
     
@@ -58,9 +60,9 @@ class AddListViewController: UITableViewController, UITextFieldDelegate {
 }
 
 
-protocol AddListViewControllerDelegate : class {
-    func AddListViewControllerDidCancel(_ controller: AddListViewController)
+protocol ListDetailViewControllerDelegate : class {
+    func ListDetailViewControllerDidCancel(_ controller: ListDetailViewController)
     
-    func AddListViewController(_ controller: AddListViewController, didFinishAddingItem item: Checklist)
-    func AddListViewController(_ controller: AddListViewController, didFinishEditingItem item: Checklist)
+    func ListDetailViewController(_ controller: ListDetailViewController, didFinishAddingItem item: Checklist)
+    func ListDetailViewController(_ controller: ListDetailViewController, didFinishEditingItem item: Checklist)
 }
