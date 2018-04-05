@@ -12,33 +12,42 @@ class AllListViewController: UITableViewController {
     
     @IBOutlet var viewTable: UITableView!
     
-    var checklistList: Array<Checklist> = []
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+            DataModel.sharedInstance.loadCheckList()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        checklistList.append(Checklist(nom: "liste 1"))
+        /*checklistList.append(Checklist(nom: "liste 1"))
         checklistList.append(Checklist(nom: "liste 2"))
         checklistList.append(Checklist(nom: "liste 3"))
         checklistList.append(Checklist(nom: "liste 4"))
+        
+        for list in checklistList {
+            list.items.append(CheckListItem(text : "Item for " + list.name))
+        }*/
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckList", for: indexPath)
-        cell.textLabel?.text = checklistList[indexPath.row].name
+        cell.textLabel?.text = DataModel.sharedInstance.ListCheckList[indexPath.row].name
         return cell
     }
     
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        checklistList.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.none)
+        DataModel.sharedInstance.ListCheckList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.none)
+            DataModel.sharedInstance.saveCheckList()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCheckList" {
             if let destVC = segue.destination as? CheckListViewController  {
                 let cell = sender as! UITableViewCell
-                destVC.list = checklistList[(tableView.indexPath(for: cell)?.row)!]
+                destVC.list = DataModel.sharedInstance.ListCheckList[(tableView.indexPath(for: cell)?.row)!]
             }
         }
         else if segue.identifier == "addList"{
@@ -51,7 +60,7 @@ class AllListViewController: UITableViewController {
             if let navVC = segue.destination as? UINavigationController,
                 let destVC = navVC.topViewController as? AddListViewController  {
                 let cell = sender as! UITableViewCell
-                destVC.ListToEdit = checklistList[(viewTable.indexPath(for: cell)?.row)!]
+                destVC.ListToEdit = DataModel.sharedInstance.ListCheckList[(tableView.indexPath(for: cell)?.row)!]
                 destVC.delegate = self
             }
         }
@@ -62,7 +71,7 @@ class AllListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return checklistList.count
+        return DataModel.sharedInstance.ListCheckList.count
     }
 
 
@@ -75,14 +84,17 @@ extension AllListViewController: AddListViewControllerDelegate{
     }
     
     func AddListViewController(_ controller: AddListViewController, didFinishAddingItem item: Checklist) {
-        checklistList.append(item)
-        viewTable.insertRows(at: [IndexPath(row: checklistList.count-1, section: 0)], with: UITableViewRowAnimation.automatic)
+        DataModel.sharedInstance.ListCheckList.append(item)
+        let index = IndexPath(item : DataModel.sharedInstance.ListCheckList.count-1, section : 0)
+        DataModel.sharedInstance.saveCheckList()
+        tableView.insertRows(at: [index] , with: UITableViewRowAnimation.none)
         dismiss(animated: true)
     }
     
     func AddListViewController(_ controller: AddListViewController, didFinishEditingItem item: Checklist) {
         controller.dismiss(animated: true)
-        let index = IndexPath(item: checklistList.index(where: {$0 === item})!, section: 0)
+        let index = IndexPath(item : DataModel.sharedInstance.ListCheckList.index(where:{ $0 === item })!, section : 0)
         tableView.reloadRows(at: [index], with: UITableViewRowAnimation.fade)
+        DataModel.sharedInstance.saveCheckList()
     }
 }
