@@ -19,6 +19,7 @@
 		B8C20CE520760DF1002FAC48 /* ListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C20CE420760DF1002FAC48 /* ListDetailViewController.swift */; };
 		B8C20CE7207626BE002FAC48 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C20CE6207626BE002FAC48 /* DataModel.swift */; };
 		B8C20CE920765177002FAC48 /* IconPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C20CE820765177002FAC48 /* IconPickerViewController.swift */; };
+		B8C20CEB20766E8D002FAC48 /* FirstLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C20CEA20766E8D002FAC48 /* FirstLaunch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		B8C20CE420760DF1002FAC48 /* ListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailViewController.swift; sourceTree = "<group>"; };
 		B8C20CE6207626BE002FAC48 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		B8C20CE820765177002FAC48 /* IconPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerViewController.swift; sourceTree = "<group>"; };
+		B8C20CEA20766E8D002FAC48 /* FirstLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 		B8B04FF7205122E0005A529C = {
 			isa = PBXGroup;
 			children = (
+				B8C20CEA20766E8D002FAC48 /* FirstLaunch.swift */,
 				B8B05002205122E0005A529C /* Checklists */,
 				B8B05001205122E0005A529C /* Products */,
 			);
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B88D5763206CE8BD003FBA5A /* AllListViewController.swift in Sources */,
+				B8C20CEB20766E8D002FAC48 /* FirstLaunch.swift in Sources */,
 				B8B0501C20519773005A529C /* ChecklistItemCell.swift in Sources */,
 				B8B05006205122E0005A529C /* CheckListViewController.swift in Sources */,
 				B8C20CE920765177002FAC48 /* IconPickerViewController.swift in Sources */,

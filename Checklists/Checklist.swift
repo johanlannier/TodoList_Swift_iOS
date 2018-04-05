@@ -15,7 +15,7 @@ class Checklist: Codable {
     var items: Array<CheckListItem>
     var icon: IconAsset
     
-    init(nom: String, list: Array<CheckListItem> = [], icon: IconAsset = .NoIcon) {
+    init(nom: String, list: Array<CheckListItem> = [], icon: IconAsset = .Folder) {
         self.name = nom
         self.items = list
         self.icon=icon
