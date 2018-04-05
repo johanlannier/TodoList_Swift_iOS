@@ -10,6 +10,8 @@ import UIKit
 
 class AllListViewController: UITableViewController {
     
+    @IBOutlet var viewTable: UITableView!
+    
     var checklistList: Array<Checklist> = []
 
     override func viewDidLoad() {
@@ -27,11 +29,30 @@ class AllListViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        checklistList.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.none)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCheckList" {
             if let destVC = segue.destination as? CheckListViewController  {
                 let cell = sender as! UITableViewCell
                 destVC.list = checklistList[(tableView.indexPath(for: cell)?.row)!]
+            }
+        }
+        else if segue.identifier == "addList"{
+            if let navVC = segue.destination as? UINavigationController,
+                let destVC = navVC.topViewController as? AddListViewController  {
+                destVC.delegate = self
+            }
+        }
+        else if segue.identifier == "editList"{
+            if let navVC = segue.destination as? UINavigationController,
+                let destVC = navVC.topViewController as? AddListViewController  {
+                let cell = sender as! UITableViewCell
+                destVC.ListToEdit = checklistList[(viewTable.indexPath(for: cell)?.row)!]
+                destVC.delegate = self
             }
         }
     }
@@ -45,4 +66,23 @@ class AllListViewController: UITableViewController {
     }
 
 
+}
+
+
+extension AllListViewController: AddListViewControllerDelegate{
+    func AddListViewControllerDidCancel(_ controller: AddListViewController) {
+        dismiss(animated: true)
+    }
+    
+    func AddListViewController(_ controller: AddListViewController, didFinishAddingItem item: Checklist) {
+        checklistList.append(item)
+        viewTable.insertRows(at: [IndexPath(row: checklistList.count-1, section: 0)], with: UITableViewRowAnimation.automatic)
+        dismiss(animated: true)
+    }
+    
+    func AddListViewController(_ controller: AddListViewController, didFinishEditingItem item: Checklist) {
+        controller.dismiss(animated: true)
+        let index = IndexPath(item: checklistList.index(where: {$0 === item})!, section: 0)
+        tableView.reloadRows(at: [index], with: UITableViewRowAnimation.fade)
+    }
 }
