@@ -278,7 +278,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="rga-yn-XaT" kind="show" id="IiU-GC-TTe"/>
+                                            <segue destination="rga-yn-XaT" kind="show" identifier="editIcon" id="IiU-GC-TTe"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -319,7 +319,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="0fM-Qd-spu" style="IBUITableViewCellStyleDefault" id="H3L-8G-s80">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IconCell" textLabel="0fM-Qd-spu" style="IBUITableViewCellStyleDefault" id="H3L-8G-s80">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="H3L-8G-s80" id="z0a-uC-tIS">
@@ -386,6 +386,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="wke-uS-skg"/>
-        <segue reference="xUY-4F-VS7"/>
+        <segue reference="OR2-1G-Ds6"/>
     </inferredMetricsTieBreakers>
 </document>
