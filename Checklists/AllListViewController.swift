@@ -16,10 +16,24 @@ class AllListViewController: UITableViewController {
         super.init(coder: aDecoder)!
             DataModel.sharedInstance.loadCheckList()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewTable.reloadData()
+    }
+    
+    func configureDetailTitle(_ cell: UITableViewCell, _ item: Checklist){
+        if(item.items.count == 0){
+            cell.detailTextLabel?.text = "(No Item)"
+        } else if(item.uncheckedItemsCount == 0){
+            cell.detailTextLabel?.text = "All Done !"
+        } else {
+            cell.detailTextLabel?.text = String(item.uncheckedItemsCount)+" items not completed"
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         /*checklistList.append(Checklist(nom: "liste 1"))
         checklistList.append(Checklist(nom: "liste 2"))
         checklistList.append(Checklist(nom: "liste 3"))
@@ -33,6 +47,7 @@ class AllListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckList", for: indexPath)
         cell.textLabel?.text = DataModel.sharedInstance.ListCheckList[indexPath.row].name
+        self.configureDetailTitle(cell, DataModel.sharedInstance.ListCheckList[indexPath.row])
         return cell
     }
     
