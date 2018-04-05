@@ -48,6 +48,7 @@ class CheckListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.tintColor=UIColor.blue
         self.navigationItem.title=list.name
         //items.append(CheckListItem(text: "Item1", checked: true))
         //items.append(CheckListItem(text: "Item2"))

@@ -72,12 +72,15 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate {
         if let edit = ListToEdit, edit.icon != self.icon {
           self.navigationItem.rightBarButtonItem?.isEnabled = true
         }
+        else if !(TextField.text?.isEmpty)! && ListToEdit==nil {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
         
     }
 
     @IBAction func done() {
         if let item = TextField.text {
-            if let edit = ListToEdit {
+            if (ListToEdit) != nil {
                 ListToEdit.name = item
                 ListToEdit.icon = self.icon
                 delegate.ListDetailViewController(self, didFinishEditingItem: ListToEdit)
