@@ -43,4 +43,8 @@ class DataModel {
             } catch {
             }
         }
+    
+    public func sortCheckList(){
+        ListCheckList = ListCheckList.sorted{ $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
 }

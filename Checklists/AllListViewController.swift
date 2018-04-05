@@ -14,7 +14,8 @@ class AllListViewController: UITableViewController {
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-            DataModel.sharedInstance.loadCheckList()
+        DataModel.sharedInstance.loadCheckList()
+        DataModel.sharedInstance.sortCheckList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,6 +101,7 @@ extension AllListViewController: AddListViewControllerDelegate{
     
     func AddListViewController(_ controller: AddListViewController, didFinishAddingItem item: Checklist) {
         DataModel.sharedInstance.ListCheckList.append(item)
+        DataModel.sharedInstance.sortCheckList()
         let index = IndexPath(item : DataModel.sharedInstance.ListCheckList.count-1, section : 0)
         DataModel.sharedInstance.saveCheckList()
         tableView.insertRows(at: [index] , with: UITableViewRowAnimation.none)
@@ -107,6 +109,7 @@ extension AllListViewController: AddListViewControllerDelegate{
     }
     
     func AddListViewController(_ controller: AddListViewController, didFinishEditingItem item: Checklist) {
+        DataModel.sharedInstance.sortCheckList()
         controller.dismiss(animated: true)
         let index = IndexPath(item : DataModel.sharedInstance.ListCheckList.index(where:{ $0 === item })!, section : 0)
         tableView.reloadRows(at: [index], with: UITableViewRowAnimation.fade)
